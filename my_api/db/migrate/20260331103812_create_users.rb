@@ -6,6 +6,8 @@ class CreateUsers < ActiveRecord::Migration[8.1]
       t.string :last_name, null: false, limit: 30
       t.string :email, null: false, limit: 30, index: { unique: true }
       t.string :password_digest, null: false
+      t.text :imageUrl, null: true
+      t.string :language, null: false, default: "en"
 
       t.timestamps
     end

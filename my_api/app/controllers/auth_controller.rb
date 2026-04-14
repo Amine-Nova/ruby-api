@@ -1,20 +1,26 @@
 class AuthController < ApplicationController
-  def index
-    render json: { message: "Auth endpoint working" }
-  end
-  def create
-    user = User.new(user_params)
-    # User.delete_all
-    if user.save
-      render json: user, status: :created
-    else
-      render json: user.errors, status: :bad_request
+  skip_before_action :authenticate, only: [ :signin ]
+
+  def signin
+    begin 
+      user = User.find_by!(username: login_params[:username])
+      authenticated_user = user&.authenticate(login_params[:password])
+      
+      if authenticated_user
+        token = JsonWebToken.encode(user_id: user.id, email: user.email, username: user.username)
+        render json: { Success: "User Authentified!", token: token }
+      else
+        raise "Invalid username or password!"
+      end
+    rescue => e
+      render json: { error: "Invalid email or password!" }, status: :unauthorized
     end
   end
-
+  
   private
-  def user_params
-    request = params.require(:auth).permit(:username, :password, :password_confirmation, :last_name, :first_name, :email)
-    return request
+
+  def login_params
+    request = params.require(:auth).permit(:password, :username)
   end
+
 end
