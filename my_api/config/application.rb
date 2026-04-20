@@ -22,7 +22,7 @@ module MyApi
     
     # Add OmniAuth
     config.middleware.use ActionDispatch::Cookies
-    config.middleware.use ActionDispatch::Session::CookieStore, key: '_your_app_session'
+    config.middleware.use ActionDispatch::Session::CookieStore, key: '_omniauth_session'
     config.middleware.use OmniAuth::Builder
     # Configuration for the application, engines, and railties goes here.
     #

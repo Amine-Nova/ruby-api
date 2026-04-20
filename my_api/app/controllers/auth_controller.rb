@@ -8,6 +8,11 @@ class AuthController < ApplicationController
       
       if authenticated_user
         token = JsonWebToken.encode(user_id: user.id, email: user.email, username: user.username)
+        cookies["token"] = {
+          value: token,
+          secure: true,
+          httponly: true,
+        }
         render json: { Success: "User Authentified!", token: token }
       else
         raise "Invalid username or password!"
