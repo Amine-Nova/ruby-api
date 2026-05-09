@@ -10,4 +10,5 @@ Rails.application.routes.draw do
   get "/auth/marvin/callback", to: 'users#intra_callback'
   get "/amine", to: 'users#check_env'
   get "/set_cookies", to: "users#set_cookies"
+  get "/check_token", to: "auth#check_token"
 end

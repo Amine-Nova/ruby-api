@@ -21,7 +21,12 @@ class AuthController < ApplicationController
       render json: { error: "Invalid email or password!" }, status: :unauthorized
     end
   end
+
+  def check_token
+    render json: { Success: "Token Valid"}
+  end  
   
+
   private
 
   def login_params
